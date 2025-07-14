@@ -42,7 +42,6 @@ THnSparseD *mHistJetGen_noE = new THnSparseD("mHistJetGen_noE", "mHistJetGen_noE
 THnSparseD *mHistJetReco_noEMCP = new THnSparseD("mHistJetReco_noEMCP", "mHistJetReco_noEMCP", NJetAxis, JetBins, JetXmin, JetXmax); mHistJetReco_noEMCP->Sumw2();
 THnSparseD *mHistJetMatch_noEMCP = new THnSparseD("mHistJetMatch_noEMCP", "mHistJetMatch_noEMCP", NJetAxis, JetBins, JetXmin, JetXmax); mHistJetMatch_noEMCP->Sumw2();
 THnSparseD *mHistJetUnMatch_noEMCP = new THnSparseD("mHistJetUnMatch_noEMCP", "mHistJetUnMatch_noEMCP", NJetAxis, JetBins, JetXmin, JetXmax); mHistJetUnMatch_noEMCP->Sumw2();
-THnSparseD *mHistJetGen_noEMCP = new THnSparseD("mHistJetGen_noEMCP", "mHistJetGen_noEMCP", NJetAxis, JetBins, JetXmin, JetXmax); mHistJetGen_noEMCP->Sumw2();
 
 // Constituents -> {pT, eta, phi}
 const int NTrkAxis = 3;
@@ -54,7 +53,6 @@ THnSparseD *mHistTrkConstReco_noE = new THnSparseD("mHistTrkConstReco_noE", "mHi
 THnSparseD *mHistTrkConstReco_noEMCP = new THnSparseD("mHistTrkConstReco_noEMCP", "mHistTrkConstReco_noEMCP", NTrkAxis, TrkBins, TrkXmin, TrkXmax); mHistTrkConstReco_noEMCP->Sumw2();
 THnSparseD *mHistTrkConstGen = new THnSparseD("mHistTrkConstGen", "mHistTrkConstGen", NTrkAxis, TrkBins, TrkXmin, TrkXmax); mHistTrkConstGen->Sumw2();
 THnSparseD *mHistTrkConstGen_noE = new THnSparseD("mHistTrkConstGen_noE", "mHistTrkConstGen_noE", NTrkAxis, TrkBins, TrkXmin, TrkXmax); mHistTrkConstGen_noE->Sumw2();
-THnSparseD *mHistTrkConstGen_noEMCP = new THnSparseD("mHistTrkConstGen_noEMCP", "mHistTrkConstGen_noEMCP", NTrkAxis, TrkBins, TrkXmin, TrkXmax); mHistTrkConstGen_noEMCP->Sumw2();
 
 // Jet Fragmentation
 const int NFragAxis = 3;
@@ -67,7 +65,6 @@ THnSparseD *mHistFrgConstReco_noE = new THnSparseD("mHistFrgConstReco_noE", "mHi
 THnSparseD *mHistFrgConstReco_noEMCP = new THnSparseD("mHistFrgConstReco_noEMCP", "mHistFrgConstReco_noEMCP", NFragAxis, FragBins, FragXmin, FragXmax); mHistFrgConstReco_noEMCP->Sumw2();
 THnSparseD *mHistFrgConstGen = new THnSparseD("mHistFrgConstGen", "mHistFrgConstGen", NFragAxis, FragBins, FragXmin, FragXmax); mHistFrgConstGen->Sumw2();
 THnSparseD *mHistFrgConstGen_noE = new THnSparseD("mHistFrgConstGen_noE", "mHistFrgConstGen_noE", NFragAxis, FragBins, FragXmin, FragXmax); mHistFrgConstGen_noE->Sumw2();
-THnSparseD *mHistFrgConstGen_noEMCP = new THnSparseD("mHistFrgConstGen_noEMCP", "mHistFrgConstGen_noEMCP", NFragAxis, FragBins, FragXmin, FragXmax); mHistFrgConstGen_noEMCP->Sumw2();
 
 
 // Dijets {etaDijet, Xj, jet pT average, leading jet pT, subleading jet pT}
@@ -83,6 +80,8 @@ THnSparseD *mHistDiJetGen_noE = new THnSparseD("mHistDiJetGen_noE", "mHistDiJetG
 
 
 void WriteHistos(){
+
+	NEvents->Write();
 
 	numRecoJetsEventHist->Write();
 	numRecoJetsNoElecEventHist->Write();
