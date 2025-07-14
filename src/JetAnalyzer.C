@@ -33,7 +33,7 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 	// Loop Through Events
 	int NEVENTS = 0;
 	while(tree_reader->Next()) {	
-
+		NEvents->Fill(1);
 	    if(NEVENTS%10000 == 0) cout << "Events Processed: " << NEVENTS << endl;
 
 		vector < LorentzVector > DijetReco;
@@ -266,7 +266,6 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 		
 	}
 	cout << "Total number of events: " << NEVENTS << endl;
-	NEvents->Fill(NEVENTS);
 	
 	WriteHistos();
 	
