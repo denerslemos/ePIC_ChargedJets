@@ -1,10 +1,10 @@
-
+TH1D *NEvents = new TH1D("NEvents","",2,0.,2.); NEvents->Sumw2();
 TH1D *numRecoJetsEventHist = new TH1D("numRecoJetsEvent","",20,0.,20.); numRecoJetsEventHist->Sumw2();
-TH1D *numRecoJetsNoElecEventHist = new TH1D("numRecoJetsNoElecEvent","",20,0.,20.);
-TH1D *numRecoJetsNoElecMCPEventHist = new TH1D("numRecoJetsNoElecMCPEventHist","",20,0.,20.);
+TH1D *numRecoJetsNoElecEventHist = new TH1D("numRecoJetsNoElecEvent","",20,0.,20.); numRecoJetsNoElecEventHist->Sumw2();
+TH1D *numRecoJetsNoElecMCPEventHist = new TH1D("numRecoJetsNoElecMCPEventHist","",20,0.,20.); numRecoJetsNoElecMCPEventHist->Sumw2();
 
-TH1D *numGenJetsEventHist = new TH1D("numGenJetsEventHist","",20,0.,20.); numRecoJetsEventHist->Sumw2();
-TH1D *numGenJetsNoElecEventHist = new TH1D("numGenJetsNoElecEventHist","",20,0.,20.);
+TH1D *numGenJetsEventHist = new TH1D("numGenJetsEventHist","",20,0.,20.); numGenJetsEventHist->Sumw2();
+TH1D *numGenJetsNoElecEventHist = new TH1D("numGenJetsNoElecEventHist","",20,0.,20.); numGenJetsNoElecEventHist->Sumw2();
 
 TH1D *JetdR = new TH1D("JetdR","",100,0.,10.); JetdR->Sumw2();
 TH1D *JetMindR = new TH1D("JetMindR","",100,0.,10.); JetMindR->Sumw2();
@@ -57,10 +57,10 @@ THnSparseD *mHistTrkConstGen_noE = new THnSparseD("mHistTrkConstGen_noE", "mHist
 THnSparseD *mHistTrkConstGen_noEMCP = new THnSparseD("mHistTrkConstGen_noEMCP", "mHistTrkConstGen_noEMCP", NTrkAxis, TrkBins, TrkXmin, TrkXmax); mHistTrkConstGen_noEMCP->Sumw2();
 
 // Jet Fragmentation
-const int NFragAxis = 2;
-int	FragBins[NTrkAxis]      =   { 100  ,  100 };
-double FragXmin[NTrkAxis]   =   { 0.0  , -5.0 };
-double FragXmax[NTrkAxis]   =   { 1.0  ,  5.0 };
+const int NFragAxis = 3;
+int	FragBins[NTrkAxis]      =   { 100  ,  100 , 100};
+double FragXmin[NTrkAxis]   =   { 0.0  , -5.0 , 0.0};
+double FragXmax[NTrkAxis]   =   { 1.0  ,  5.0 , 50.0};
 
 THnSparseD *mHistFrgConstReco = new THnSparseD("mHistFrgConstReco", "mHistFrgConstReco", NFragAxis, FragBins, FragXmin, FragXmax); mHistFrgConstReco->Sumw2();
 THnSparseD *mHistFrgConstReco_noE = new THnSparseD("mHistFrgConstReco_noE", "mHistFrgConstReco_noE", NFragAxis, FragBins, FragXmin, FragXmax); mHistFrgConstReco_noE->Sumw2();
@@ -75,12 +75,11 @@ const int NDiJetAxis = 5;
 int	DiJetBins[NDiJetAxis]      =   {  50    , 10 , 200 , 200 , 200 };
 double DiJetXmin[NDiJetAxis]   =   {  -5.0  , 0.0, 0.0 , 0.0 , 0.0 };
 double DiJetXmax[NDiJetAxis]   =   {  5.0   , 1.0, 50.0, 50.0, 50.0};
-THnSparseD *mHistDiJetReco = new THnSparseD("mHistDiJetReco", "mHistDiJetReco", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax);
-THnSparseD *mHistDiJetReco_noE = new THnSparseD("mHistDiJetReco_noE", "mHistDiJetReco_noE", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax);
-THnSparseD *mHistDiJetReco_noEMCP = new THnSparseD("mHistDiJetReco_noEMCP", "mHistDiJetReco_noEMCP", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax);
-THnSparseD *mHistDiJetGen = new THnSparseD("mHistDiJetGen", "mHistDiJetGen", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax);
-THnSparseD *mHistDiJetGen_noE = new THnSparseD("mHistDiJetGen_noE", "mHistDiJetGen_noE", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax);
-THnSparseD *mHistDiJetGen_noEMCP = new THnSparseD("mHistDiJetGen_noEMCP", "mHistDiJetGen_noEMCP", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax);
+THnSparseD *mHistDiJetReco = new THnSparseD("mHistDiJetReco", "mHistDiJetReco", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax); mHistDiJetReco->Sumw2();
+THnSparseD *mHistDiJetReco_noE = new THnSparseD("mHistDiJetReco_noE", "mHistDiJetReco_noE", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax); mHistDiJetReco_noE->Sumw2();
+THnSparseD *mHistDiJetReco_noEMCP = new THnSparseD("mHistDiJetReco_noEMCP", "mHistDiJetReco_noEMCP", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax); mHistDiJetReco_noEMCP->Sumw2();
+THnSparseD *mHistDiJetGen = new THnSparseD("mHistDiJetGen", "mHistDiJetGen", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax); mHistDiJetGen->Sumw2();
+THnSparseD *mHistDiJetGen_noE = new THnSparseD("mHistDiJetGen_noE", "mHistDiJetGen_noE", NDiJetAxis, DiJetBins, DiJetXmin, DiJetXmax); mHistDiJetGen_noE->Sumw2();
 
 
 void WriteHistos(){

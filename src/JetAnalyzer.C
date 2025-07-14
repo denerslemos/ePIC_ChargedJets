@@ -34,15 +34,17 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 	int NEVENTS = 0;
 	while(tree_reader->Next()) {	
 
+	    if(NEVENTS%10000 == 0) cout << "Events Processed: " << NEVENTS << endl;
+
 		vector < LorentzVector > DijetReco;
 		vector < LorentzVector > DijetReco_noE;
 		vector < LorentzVector > DijetReco_noEMC;
 
 	    // Analyze Reconstructed Jets
-	    int numRecoJetsNoElec = 0;
-	    int numRecoJetsNoElecMC = 0;
-	    int numRecoJetsSingleParticle = 0;
-	    numRecoJetsEventHist->Fill(JetRecoType->GetSize());
+		int numRecoJetsNoElec = 0;
+		int numRecoJetsNoElecMC = 0;
+		int numRecoJetsSingleParticle = 0;
+		numRecoJetsEventHist->Fill(JetRecoType->GetSize());
 		for(unsigned int ijet = 0; ijet < JetRecoType->GetSize(); ijet++) {
 			LorentzVector JetReco((*JetRecoPx)[ijet], (*JetRecoPy)[ijet], (*JetRecoPz)[ijet], (*JetRecoE)[ijet]);
     		double RecoJetEta = JetReco.Eta();
@@ -83,8 +85,8 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 				if(noElectron) mHistTrkConstReco_noE->Fill(RecoTrk);	
 				if(noElectronMC) mHistTrkConstReco_noEMCP->Fill(RecoTrk);	
 				cesum += (*TrkRecoE)[(*JetRecoCIdx)[icjet]];		
-				double zFrag[2] = {TrkReco.Pt()/RecoJetPt, RecoJetEta};
-				if(RecoJetPt > 5.0){
+				double zFrag[3] = {TrkReco.Pt()/RecoJetPt, RecoJetEta, RecoJetPt};
+				if(RecoJetPt > 2.0){
 					mHistFrgConstReco->Fill(zFrag);
 					if(noElectron) mHistFrgConstReco_noE->Fill(zFrag);
 					if(noElectronMC) mHistFrgConstReco_noEMCP->Fill(zFrag);					
@@ -143,7 +145,7 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 		std::sort(DijetReco.begin(), DijetReco.end(), [](LorentzVector a, LorentzVector b) { return b.Pt() < a.Pt(); }); //sort by pT
 		for(unsigned int idjt = 0; idjt < DijetReco.size(); idjt++) {
 			if( DijetReco.size() < 2 ) continue; 
-			if( DijetReco[1].Pt() < 5.0 ) continue; // remove events if subleading jets less than 5 GeV
+			if( DijetReco[1].Pt() < 3.0 ) continue; // remove events if subleading jets less than 5 GeV
 			if( ( fabs(TVector2::Phi_mpi_pi(DijetReco[0].Phi() - DijetReco[1].Phi())) > ( ( 2.0 * TMath::Pi() ) / 3.0) ) ){
 				double DijetEta = ( DijetReco[0].Eta() + DijetReco[1].Eta()) / 2.0;
 				double Xj = (DijetReco[1].Pt() / DijetReco[0].Pt());
@@ -156,7 +158,7 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 		std::sort(DijetReco_noE.begin(), DijetReco_noE.end(), [](LorentzVector a, LorentzVector b) { return b.Pt() < a.Pt(); }); //sort by pT
 		for(unsigned int idjt = 0; idjt < DijetReco_noE.size(); idjt++) {
 			if( DijetReco_noE.size() < 2 ) continue; 
-			if( DijetReco_noE[1].Pt() < 5.0 ) continue; // remove events if subleading jets less than 5 GeV
+			if( DijetReco_noE[1].Pt() < 3.0 ) continue; // remove events if subleading jets less than 5 GeV
 			if( ( fabs(TVector2::Phi_mpi_pi(DijetReco_noE[0].Phi() - DijetReco_noE[1].Phi())) > ( ( 2.0 * TMath::Pi() ) / 3.0) ) ){
 				double DijetEta = ( DijetReco_noE[0].Eta() + DijetReco_noE[1].Eta()) / 2.0;
 				double Xj = (DijetReco_noE[1].Pt() / DijetReco_noE[0].Pt());
@@ -169,7 +171,7 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 		std::sort(DijetReco_noEMC.begin(), DijetReco_noEMC.end(), [](LorentzVector a, LorentzVector b) { return b.Pt() < a.Pt(); }); //sort by pT
 		for(unsigned int idjt = 0; idjt < DijetReco_noEMC.size(); idjt++) {
 			if( DijetReco_noEMC.size() < 2 ) continue; 
-			if( DijetReco_noEMC[1].Pt() < 5.0 ) continue; // remove events if subleading jets less than 5 GeV
+			if( DijetReco_noEMC[1].Pt() < 3.0 ) continue; // remove events if subleading jets less than 5 GeV
 			if( ( fabs(TVector2::Phi_mpi_pi(DijetReco_noEMC[0].Phi() - DijetReco_noEMC[1].Phi())) > ( ( 2.0 * TMath::Pi() ) / 3.0) ) ){
 				double DijetEta = ( DijetReco_noEMC[0].Eta() + DijetReco_noEMC[1].Eta()) / 2.0;
 				double Xj = (DijetReco_noEMC[1].Pt() / DijetReco_noEMC[0].Pt());
@@ -219,8 +221,8 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 				double GenTrk[3] = {TrkGen.Pt(), TrkGen.Eta(), TrkGen.Phi()};	  	
 				mHistTrkConstGen->Fill(GenTrk);		
 				if(noGenElectron) mHistTrkConstGen_noE->Fill(GenTrk);			
-				double zFrag[2] = {TrkGen.Pt()/GenJetPt, GenJetEta};
-				if(GenJetPt > 5.0){ mHistFrgConstGen->Fill(zFrag); if(noGenElectron) mHistFrgConstGen_noE->Fill(zFrag); }						
+				double zFrag[3] = {TrkGen.Pt()/GenJetPt, GenJetEta, GenJetPt};
+				if(GenJetPt > 2.0){ mHistFrgConstGen->Fill(zFrag); if(noGenElectron) mHistFrgConstGen_noE->Fill(zFrag); }						
 			}
 
 			if(noGenElectron){ mHistJetGen_noE->Fill(GenJet); numGenJetsNoElec++; DijetGen_noE.push_back(JetGen); }
@@ -232,7 +234,7 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 		std::sort(DijetGen.begin(), DijetGen.end(), [](LorentzVector a, LorentzVector b) { return b.Pt() < a.Pt(); }); //sort by pT
 		for(unsigned int idjt = 0; idjt < DijetGen.size(); idjt++) {
 			if( DijetGen.size() < 2 ) continue; 
-			if( DijetGen[1].Pt() < 5.0 ) continue; // remove events if subleading jets less than 5 GeV
+			if( DijetGen[1].Pt() < 3.0 ) continue; // remove events if subleading jets less than 5 GeV
 			if( ( fabs(TVector2::Phi_mpi_pi(DijetGen[0].Phi() - DijetGen[1].Phi())) > ( ( 2.0 * TMath::Pi() ) / 3.0) ) ){
 				double DijetEta = ( DijetGen[0].Eta() + DijetGen[1].Eta()) / 2.0;
 				double Xj = (DijetGen[1].Pt() / DijetGen[0].Pt());
@@ -245,7 +247,7 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 		std::sort(DijetGen_noE.begin(), DijetGen_noE.end(), [](LorentzVector a, LorentzVector b) { return b.Pt() < a.Pt(); }); //sort by pT
 		for(unsigned int idjt = 0; idjt < DijetGen_noE.size(); idjt++) {
 			if( DijetGen_noE.size() < 2 ) continue; 
-			if( DijetGen_noE[1].Pt() < 5.0 ) continue; // remove events if subleading jets less than 5 GeV
+			if( DijetGen_noE[1].Pt() < 3.0 ) continue; // remove events if subleading jets less than 5 GeV
 			if( ( fabs(TVector2::Phi_mpi_pi(DijetGen_noE[0].Phi() - DijetGen_noE[1].Phi())) > ( ( 2.0 * TMath::Pi() ) / 3.0) ) ){
 				double DijetEta = ( DijetGen_noE[0].Eta() + DijetGen_noE[1].Eta()) / 2.0;
 				double Xj = (DijetGen_noE[1].Pt() / DijetGen_noE[0].Pt());
@@ -264,7 +266,10 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 		
 	}
 	cout << "Total number of events: " << NEVENTS << endl;
+	NEvents->Fill(NEVENTS);
+	
 	WriteHistos();
+	
 	OutFile->Close();
 	
 
