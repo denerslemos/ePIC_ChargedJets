@@ -34,7 +34,7 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 	int NEVENTS = 0;
 	while(tree_reader->Next()) {	
 		NEvents->Fill(1);
-	    if(NEVENTS%10000 == 0) cout << "Events Processed: " << NEVENTS << endl;
+	    if(NEVENTS%50000 == 0) cout << "Events Processed: " << NEVENTS << endl;
 
 		vector < LorentzVector > DijetReco;
 		vector < LorentzVector > DijetReco_noE;
@@ -183,7 +183,7 @@ void JetAnalyzer(TString InputFileList, TString OutputFile){
 				double Xj = (DijetReco_noEMC[1].Pt() / DijetReco_noEMC[0].Pt());
 				double pTave = ( DijetReco_noEMC[0].Pt() + DijetReco_noEMC[1].Pt() ) / 2.0;
 				double EtaDijet[5] = {DijetEta, Xj, pTave, DijetReco_noEMC[0].Pt(), DijetReco_noEMC[1].Pt()};
-				mHistDiJetReco_noE->Fill(EtaDijet);
+				mHistDiJetReco_noEMCP->Fill(EtaDijet);
 			}
 		}
 		
